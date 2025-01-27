@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PermissionsUU</string>
+    <string name="title_text">Открытый доступ</string>
+    <string name="exit">Выход</string>
+    <string name="permission_camera">разрешение CAMERA получено</string>
+    <string name="permission_contacts">разрешение CONTACTS получено</string>
+</resources>
