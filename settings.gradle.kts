@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PermissionsUU"
+rootProject.name = "ContentProviderUU"
 include(":app")
  

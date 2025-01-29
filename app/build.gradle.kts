@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "ru.zatsoft.permissionsuu"
+    namespace = "ru.zatsoft.contentprovideruu"
     compileSdk = 35
 
     buildFeatures {
@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "ru.zatsoft.permissionsuu"
+        applicationId = "ru.zatsoft.contentprovideruu"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -24,6 +24,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
+            
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -31,11 +32,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 

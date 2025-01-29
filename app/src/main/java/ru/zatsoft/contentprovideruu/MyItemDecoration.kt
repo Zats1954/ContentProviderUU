@@ -1,4 +1,4 @@
-package ru.zatsoft.permissionsuu
+package ru.zatsoft.contentprovideruu
 
 import android.content.Context
 import android.graphics.Canvas

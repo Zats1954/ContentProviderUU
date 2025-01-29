@@ -24,24 +24,13 @@
             android:textSize="@dimen/text_size" />
     </androidx.appcompat.widget.Toolbar>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCamera"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/permission_camera"
         android:textSize="@dimen/text_size"
         android:layout_margin ="@dimen/button_margin"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarMain"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnContacts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/permission_contacts"
-        android:textSize="@dimen/text_size"
-        android:layout_margin ="@dimen/button_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCamera"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
