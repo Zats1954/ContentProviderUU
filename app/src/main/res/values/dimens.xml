@@ -6,4 +6,6 @@
     <dimen name="text_title">15sp</dimen>
     <dimen name="button_margin">20dp</dimen>
     <dimen name="width_image">200dp</dimen>
+    <dimen name="image_height">30dp</dimen>
+    <dimen name="image_margin">2dp</dimen>
 </resources>

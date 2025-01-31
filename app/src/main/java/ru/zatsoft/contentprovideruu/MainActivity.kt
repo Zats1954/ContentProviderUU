@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,42 +35,72 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         title = " "
 
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) !=
-            PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
             contactsPermission.launch(Manifest.permission.READ_CONTACTS)
-             adapter.notifyDataSetChanged()
-        } else{
+            contactsPermission.launch(Manifest.permission.READ_CONTACTS)
+            contactsPermission.launch(Manifest.permission.READ_CONTACTS)
+            adapter.notifyDataSetChanged()
+        } else {
             getContact()
         }
     }
 
     private val contactsPermission = registerForActivityResult(
-        ActivityResultContracts.RequestPermission())
+        ActivityResultContracts.RequestPermission()
+    )
     { isGranted ->
-        if(isGranted){
-            Toast.makeText(this,
+        if (isGranted) {
+            Toast.makeText(
+                this,
                 "Есть разрешение использовать контакты",
-                Toast.LENGTH_LONG).show()
-        }
-        else {
-            Toast.makeText(this,
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            Toast.makeText(
+                this,
                 "Нет разрешения использовать контакты",
-                Toast.LENGTH_LONG).show()
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
     private val callPermission = registerForActivityResult(
-        ActivityResultContracts.RequestPermission())
+        ActivityResultContracts.RequestPermission()
+    )
     { isGranted ->
-        if(isGranted){
-            Toast.makeText(this,
+        if (isGranted) {
+            Toast.makeText(
+                this,
                 "Есть разрешение использовать звонки",
-                Toast.LENGTH_LONG).show()
-        }
-        else {
-            Toast.makeText(this,
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            Toast.makeText(
+                this,
                 "Нет разрешения использовать звонки",
-                Toast.LENGTH_LONG).show()
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+    private val smsPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    )
+    { isGranted ->
+        if (isGranted) {
+            Toast.makeText(
+                this,
+                "Есть разрешение посылать SMS",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            Toast.makeText(
+                this,
+                "Нет разрешения посылать SMS",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -85,7 +116,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("Range")
-    private fun getContact(){
+    private fun getContact() {
         contactList = ArrayList()
         val phones = contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -95,7 +126,7 @@ class MainActivity : AppCompatActivity() {
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
         )
 
-        while(phones!!.moveToNext()){
+        while (phones!!.moveToNext()) {
             val name =
                 phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
             val phoneNumber =
@@ -111,21 +142,46 @@ class MainActivity : AppCompatActivity() {
         binding.listView.addItemDecoration(MyItemDecoration(this, R.drawable.divider))
         binding.listView.setHasFixedSize(true)
 
-        adapter.setOnContactClickListener  (
-            object: CustomAdapter.OnContactClickListener {
-                override fun onContactClick(contact:ContactModel, position: Int){
+        adapter.setOnContactClickListener(
+            object : CustomAdapter.OnContactClickListener {
+                override fun onContactClick(contact: ContactModel, position: Int, type: String) {
                     val number = contact.phone
-                    if(ActivityCompat.checkSelfPermission(this@MainActivity, Manifest.permission.CALL_PHONE) !=
-                        PackageManager.PERMISSION_GRANTED){
-                        callPermission.launch(Manifest.permission.CALL_PHONE)
-                    } else {
-                        callNumber(number)
+                    when (type) {
+                        "call" -> {
+                            if (ActivityCompat.checkSelfPermission(
+                                    this@MainActivity,
+                                    Manifest.permission.CALL_PHONE
+                                ) != PackageManager.PERMISSION_GRANTED
+                            ) {
+                                callPermission.launch(Manifest.permission.CALL_PHONE)
+                            } else {
+                                callNumber(number)
+                            }
+                        }
+
+                        "sms" -> {
+                            if (ActivityCompat.checkSelfPermission(
+                                    this@MainActivity,
+                                    Manifest.permission.SEND_SMS
+                                ) != PackageManager.PERMISSION_GRANTED
+                            ) {
+                                smsPermission.launch(Manifest.permission.SEND_SMS)
+                            } else {
+                                val intent = Intent(this@MainActivity, SendSMS::class.java)
+                                intent.putExtra("phone", number)
+                                startActivity(intent)
+                            }
+                        }
+
+                        else -> {
+                            throw Exception("Ошибка выбора вызова абонента")
+                        }
                     }
                 }
             })
-        }
+    }
 
-    private fun callNumber(number: String?){
+    private fun callNumber(number: String?) {
         val intent = Intent(Intent.ACTION_CALL)
         intent.data = Uri.parse("tel:$number")
         startActivity(intent)

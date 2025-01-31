@@ -3,4 +3,7 @@
     <string name="title_text">Открытый доступ</string>
     <string name="exit">Выход</string>
     <string name="permission_contacts">разрешение CONTACTS получено</string>
+    <string name="sendSMS">Отправить</string>
+    <string name="telephone_message">Телефон: %1$s</string>
+    <string name="message">Сообщение</string>
 </resources>
